@@ -1,66 +1,44 @@
 import 'package:flutter/material.dart';
-import 'dart:math';
+import 'package:audioplayers/audioplayers.dart';
+import 'package:audioplayers/audio_cache.dart';
 
-void main() {
-  runApp(const MaterialApp(home: Home()));
-}
+void main() => runApp(XylophoneApp());
 
-class Home extends StatelessWidget {
-  const Home({super.key});
+class XylophoneApp extends StatelessWidget {
+  final AudioCache audioCache = AudioCache(); // 创建 AudioCache 实例
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Dice'),
-        backgroundColor: Colors.red,
-        titleTextStyle: const TextStyle(color: Colors.white, fontSize: 20),
+  Widget buildKey({required color, required int soundNumber}) {
+    return Expanded(
+      flex: 1,
+      child: TextButton(
+        onPressed: () async {
+          // final player =  AudioCache();
+          // await player.loadPath('note$soundNumber.wav');
+        },
+        child: Container(
+          color: color,
+        ),
       ),
-      backgroundColor: Colors.red,
-      body: const DicePage(),
     );
   }
-}
 
-class DicePage extends StatefulWidget {
-  const DicePage({super.key});
-
-  @override
-  State<DicePage> createState() => _DicePageState();
-}
-
-class _DicePageState extends State<DicePage> {
-  int leftDiceNumber = 2;
-  int rightDiceNumber = 2;
-
-  void changeDice() {
-    setState(() {
-      leftDiceNumber = Random().nextInt(6) + 1;
-      rightDiceNumber = Random().nextInt(6) + 1;
-    });
-  }
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Row(
-        children: [
-          Expanded(
-            child: TextButton(
-              onPressed: () => {
-                changeDice()
-              },
-              child: Image.asset('assets/dice$leftDiceNumber.png'),
-            ),
-          ),
-          Expanded(
-            child: TextButton(
-              onPressed: () => {
-                changeDice()
-              },
-              child: Image.asset('assets/dice$rightDiceNumber.png'),
-            ),
-          )
-        ],
+    return MaterialApp(
+      home: Scaffold(
+        backgroundColor: Colors.black,
+        body: SafeArea(
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+            buildKey(color: Colors.red, soundNumber: 1),
+            buildKey(color: Colors.orange, soundNumber: 2),
+            buildKey(color: Colors.yellow, soundNumber: 3),
+            buildKey(color: Colors.green, soundNumber: 4),
+            buildKey(color: Colors.teal, soundNumber: 5),
+            buildKey(color: Colors.blue, soundNumber: 6),
+            buildKey(color: Colors.purple, soundNumber: 7),
+          ]),
+        ),
       ),
     );
   }
